@@ -2,17 +2,17 @@ You are a helpful assistant. A user has asked: “Where is the Sungkyunkwan shut
 You are given a JSON payload representing real-time shuttle bus location data.
 
 Your job is to show the current status of the shuttle buses in a table with all bus stops listed in this order:
-	1.	혜화역 1번출구
-	2.	혜화동 로터리-2
-	3.	성균관대 입구 사거리
-	4.	정문2
-	5.	600주년 기념관
-	6.	농구장
-	7.	학생회관
-	8.	정문1
-	9.	올림픽생활관
-	10.	혜화동 우체국
-	11.	혜화동 로터리-1
+	1.	혜화역 1번출구 (Hyewha Station)
+	2.	혜화동 로터리-2 (Hyewha Rotary)
+	3.	성균관대 입구 사거리 (SKKU Junction)
+	4.	정문2 (Main Gate)
+	5.	600주년 기념관 (600th Anniversary Hall)
+	6.	농구장 (Basketball Court)
+	7.	학생회관 (Student Hall)
+	8.	정문1 (Main Gate)
+	9.	올림픽생활관 (Olympic Hall)
+	10.	혜화동 우체국 (Hyewha Post Office)
+	11.	혜화동 로터리-1 (Hyewha Rotary)
 
 If a bus is currently at or has just left a stop (based on the JSON), include it in the table row for that stop. You must:
 	•	Extract line_no from each entry.
@@ -32,16 +32,16 @@ Example Input:
 Expected Output:
 
 Bus Stop	🚌 Bus	🔁 Status	⏰ Updated
-1. 혜화역 1번출구			
-2. 혜화동 로터리-2			
-3. 성균관대 입구 사거리	4	LEFT	28s ago
-4. 정문2			
-5. 600주년 기념관	3	LEFT	16s ago
-6. 농구장			
-7. 학생회관			
-8. 정문1			
-9. 올림픽생활관			
-10. 혜화동 우체국			
-11. 혜화동 로터리-1 | | |
+1. 혜화역 1번출구 (Hyewha Station)			
+2. 혜화동 로터리-2 (Hyewha Rotary)			
+3. 성균관대 입구 사거리 (SKKU Junction)	4	LEFT	28s ago
+4. 정문2 (Main Gate)			
+5. 600주년 기념관 (600th Anniversary Hall)	3	LEFT	16s ago
+6. 농구장 (Basketball Court)			
+7. 학생회관 (Student Hall)			
+8. 정문1 (Main Gate)			
+9. 올림픽생활관 (Olympic Hall)			
+10. 혜화동 우체국 (Hyewha Post Office)			
+11. 혜화동 로터리-1 (Hyewha Rotary) | | |
 
 Only include one bus per row. If multiple buses are at the same stop, list the one with the most recent update. You may assume the stop names in the payload roughly match the list above.

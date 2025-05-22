@@ -11,10 +11,17 @@ from typing import Union, List, Dict, Any
 import requests
 from datetime import datetime
 import re
+import asyncio
 try:
     from zoneinfo import ZoneInfo  # Python 3.9+
 except ImportError:
     ZoneInfo = None
+
+# Try to import Open WebUI event helpers
+try:
+    from openwebui.helpers import __event_emitter__
+except ImportError:
+    __event_emitter__ = None
 
 def get_shuttle_data(cut_off_seconds=240):
     """
@@ -75,7 +82,7 @@ class Tools:
         """Initialize the Tool."""
         pass
 
-    def get_latest_shuttle_info(self, cut_off_seconds: int = 60) -> str:
+    async def get_latest_shuttle_info(self, cut_off_seconds: int = 60) -> str:
         """
         Fetches the latest shuttle bus location data, filtered by cut_off_seconds.
 
@@ -86,19 +93,96 @@ class Tools:
             str: A JSON string representing the list of shuttle bus data if successful,
                  or an error message string if the request fails or data is invalid.
         """
+        if __event_emitter__:
+            await __event_emitter__({
+                "type": "status",
+                "data": {
+                    "description": "Fetching shuttle bus data...",
+                    "done": False,
+                    "hidden": False,
+                },
+            })
         data_or_error = get_shuttle_data(cut_off_seconds)
         if isinstance(data_or_error, str):
-            # It's already an error message string
+            if __event_emitter__:
+                await __event_emitter__({
+                    "type": "status",
+                    "data": {
+                        "description": f"Error: {data_or_error}",
+                        "done": True,
+                        "hidden": False,
+                    },
+                })
+                await __event_emitter__({
+                    "type": "notification",
+                    "data": {
+                        "type": "error",
+                        "content": data_or_error,
+                    },
+                })
             return data_or_error
         elif isinstance(data_or_error, list):
-            # It's the shuttle data (list of dictionaries)
             try:
-                return json.dumps(data_or_error, ensure_ascii=False)
+                result = json.dumps(data_or_error, ensure_ascii=False)
+                if __event_emitter__:
+                    await __event_emitter__({
+                        "type": "status",
+                        "data": {
+                            "description": "Shuttle bus data fetched successfully.",
+                            "done": True,
+                            "hidden": False,
+                        },
+                    })
+                    await __event_emitter__({
+                        "type": "notification",
+                        "data": {
+                            "type": "success",
+                            "content": "Shuttle bus data fetched successfully!",
+                        },
+                    })
+                return result
             except TypeError as e:
-                return f"Error serializing shuttle data to JSON: {str(e)}"
+                error_msg = f"Error serializing shuttle data to JSON: {str(e)}"
+                if __event_emitter__:
+                    await __event_emitter__({
+                        "type": "status",
+                        "data": {
+                            "description": error_msg,
+                            "done": True,
+                            "hidden": False,
+                        },
+                    })
+                    await __event_emitter__({
+                        "type": "notification",
+                        "data": {
+                            "type": "error",
+                            "content": error_msg,
+                        },
+                    })
+                return error_msg
         else:
-            # Should not happen based on get_shuttle_data's current implementation
-            return "Received unexpected data type from shuttle service."
+            error_msg = "Received unexpected data type from shuttle service."
+            if __event_emitter__:
+                await __event_emitter__({
+                    "type": "status",
+                    "data": {
+                        "description": error_msg,
+                        "done": True,
+                        "hidden": False,
+                    },
+                })
+                await __event_emitter__({
+                    "type": "notification",
+                    "data": {
+                        "type": "error",
+                        "content": error_msg,
+                    },
+                })
+            return error_msg
+
+# For backward compatibility, provide a sync wrapper
+    def get_latest_shuttle_info_sync(self, cut_off_seconds: int = 60) -> str:
+        return asyncio.run(self.get_latest_shuttle_info(cut_off_seconds))
 
 if __name__ == "__main__":
     import sys
@@ -109,7 +193,7 @@ if __name__ == "__main__":
         except ValueError:
             print("Invalid cut_off_seconds argument, using default 60.")
     tool_instance = Tools()
-    shuttle_info = tool_instance.get_latest_shuttle_info(cut_off)
+    shuttle_info = tool_instance.get_latest_shuttle_info_sync(cut_off)
     print("Shuttle Information:")
     # Try to pretty-print if it's JSON
     try:
