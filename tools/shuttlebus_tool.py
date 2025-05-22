@@ -16,7 +16,7 @@ try:
 except ImportError:
     ZoneInfo = None
 
-def get_shuttle_data(cut_off_seconds=60):
+def get_shuttle_data(cut_off_seconds=240):
     """
     Fetches shuttle bus data from the specified URL, adds 'last_update' field (seconds since get_date),
     and filters out records older than cut_off_seconds. Uses Asia/Seoul timezone for accurate calculation.
