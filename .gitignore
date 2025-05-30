@@ -173,3 +173,4 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 .webui_secret_key
+inputs/
