@@ -6,4 +6,4 @@ ipykernel
 markdownify
 stealth-requests
 
-lightrag-hku[api]
+lightrag-hku
