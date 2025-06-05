@@ -1,7 +1,5 @@
 https://summer.skku.edu/summer/program/policies.do
-https://summer.skku.edu/summer/registration/calendar2.do
 https://summer.skku.edu/summer/program/overview.do
-https://summer.skku.edu/summer/registration/calendar.do
 https://summer.skku.edu/summer/registration/scholarships.do
 https://summer.skku.edu/summer/registration/tuition.do
 https://summer.skku.edu/summer/life/attractions.do
@@ -11,7 +9,6 @@ https://summer.skku.edu/summer/program/Course_BM.do
 https://summer.skku.edu/summer/program/Course_ENG.do
 https://summer.skku.edu/summer/life/housing01.do
 https://summer.skku.edu/summer/board/links.do
-https://summer.skku.edu/summer/registration/application2.do
 https://summer.skku.edu/summer/program/pre_session.do
 https://summer.skku.edu/summer/program/Course_KK.do
 https://summer.skku.edu/summer/program/Course_SH.do
