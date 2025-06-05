@@ -1,10 +1,2 @@
 open-webui
 python-dotenv
-
-beautifulsoup4
-ipykernel
-markdownify
-stealth-requests
-
-lightrag-hku
-tqdm
