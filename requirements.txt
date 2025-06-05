@@ -7,3 +7,4 @@ markdownify
 stealth-requests
 
 lightrag-hku
+tqdm
